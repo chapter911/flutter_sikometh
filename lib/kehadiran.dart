@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sikometh_2/kehadiran_detail.dart';
 
 class Kehadiran extends StatefulWidget {
   const Kehadiran({super.key});
@@ -21,44 +23,49 @@ class _KehadiranState extends State<Kehadiran> {
       _list.add(
         Container(
           margin: const EdgeInsets.only(bottom: 10),
-          child: Card(
-            elevation: 15,
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    width: double.maxFinite,
-                    color: Colors.blue,
-                    child: Center(
-                      child: Text(
-                        _matpel[i],
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+          child: InkWell(
+            onTap: () {
+              Get.to(() => const KehadiranDetail(), arguments: _matpel[i]);
+            },
+            child: Card(
+              elevation: 15,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      width: double.maxFinite,
+                      color: Colors.blue,
+                      child: Center(
+                        child: Text(
+                          _matpel[i],
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Text(_sks[i]),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Text(_persentase[i]),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Text(_sks[i]),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(_persentase[i]),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

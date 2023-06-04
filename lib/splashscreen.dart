@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sikometh_2/dashboard.dart';
+import 'package:sikometh_2/dashboard_guru.dart';
 import 'package:sikometh_2/sharedpreferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,8 +20,20 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
-      setState(() {
-        isLoading = false;
+      DataSharedPreferences().checkData("username").then((value) {
+        if (value) {
+          DataSharedPreferences().readString("username").then((value) {
+            if (value == "admin") {
+              Get.to(() => const DashboardGuru());
+            } else {
+              Get.to(() => const Dashboard());
+            }
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
       });
     });
   }
@@ -125,7 +138,11 @@ class _SplashScreenState extends State<SplashScreen> {
                                     } else {
                                       DataSharedPreferences().saveString(
                                           "username", _username.text);
-                                      Get.to(() => const Dashboard());
+                                      if (_username.text == "admin") {
+                                        Get.to(() => const DashboardGuru());
+                                      } else {
+                                        Get.to(() => const Dashboard());
+                                      }
                                     }
                                   },
                                   child: const Padding(

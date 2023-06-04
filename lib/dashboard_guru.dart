@@ -7,16 +7,15 @@ import 'package:sikometh_2/profilepage.dart';
 import 'package:sikometh_2/sharedpreferences.dart';
 import 'package:sikometh_2/splashscreen.dart';
 import 'package:sikometh_2/surat.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+class DashboardGuru extends StatefulWidget {
+  const DashboardGuru({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<DashboardGuru> createState() => _DashboardGuruState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardGuruState extends State<DashboardGuru> {
   String _username = "";
 
   @override
@@ -50,9 +49,7 @@ class _DashboardState extends State<Dashboard> {
                   DataSharedPreferences().clearData();
                   Get.offAll(() => const SplashScreen());
                 },
-                icon: const Icon(
-                  Icons.power_settings_new,
-                ),
+                icon: const Icon(Icons.power_settings_new),
               ),
             ],
           ),
@@ -64,59 +61,31 @@ class _DashboardState extends State<Dashboard> {
                   onTap: () {
                     Get.to(() => const ProfilePage());
                   },
-                  child: Card(
-                    elevation: 10,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    width: 100,
+                    height: 100,
+                    decoration: const ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: Colors.amber,
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Image.asset(
-                              'assets/logo_app.jpg',
-                              scale: 15,
-                            ),
-                          ),
-                          Flexible(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text("19200551825"),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    _username.toUpperCase(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text("Teknik Informatika"),
-                                ),
-                                const Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    "Universitas ...",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Icon(
+                        Icons.person,
+                        size: 80,
                       ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: Text(
+                    _username.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -354,16 +323,6 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              const url = "https://wa.me/+6282190957447";
-              await launchUrlString(
-                url,
-                mode: LaunchMode.externalApplication,
-              );
-            },
-            child: const Icon(Icons.message),
           ),
         ),
       ],
