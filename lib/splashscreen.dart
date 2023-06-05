@@ -16,14 +16,18 @@ class _SplashScreenState extends State<SplashScreen> {
   final TextEditingController _password = TextEditingController();
 
   bool isLoading = true;
+
+  String _pilihan = "- PILIH -";
+  final List<String> _jenis = ["- PILIH -", "MAHASISWA", "DOSEN"];
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
       DataSharedPreferences().checkData("username").then((value) {
         if (value) {
-          DataSharedPreferences().readString("username").then((value) {
-            if (value == "admin") {
+          DataSharedPreferences().readString("jenis").then((value) {
+            if (value! == "DOSEN") {
               Get.to(() => const DashboardGuru());
             } else {
               Get.to(() => const Dashboard());
@@ -121,6 +125,34 @@ class _SplashScreenState extends State<SplashScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
+                              Container(
+                                color: Colors.white,
+                                width: double.maxFinite,
+                                child: DropdownButton<String>(
+                                  borderRadius: BorderRadius.circular(10),
+                                  padding: const EdgeInsets.all(10),
+                                  isExpanded: true,
+                                  value: _pilihan,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _pilihan = value!;
+                                    });
+                                  },
+                                  items: _jenis.map<DropdownMenuItem<String>>(
+                                    (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    },
+                                  ).toList(),
+                                  icon: const Icon(Icons.arrow_drop_down),
+                                  underline: const SizedBox(),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               SizedBox(
                                 width: double.maxFinite,
                                 child: ElevatedButton(
@@ -135,10 +167,17 @@ class _SplashScreenState extends State<SplashScreen> {
                                           "Password yang anda masukkan salah",
                                           colorText: Colors.black,
                                           backgroundColor: Colors.yellow);
+                                    } else if (_pilihan == "- PILIH -") {
+                                      Get.snackbar("Maaf",
+                                          "Anda belum memasukkan jenis Anda",
+                                          colorText: Colors.black,
+                                          backgroundColor: Colors.yellow);
                                     } else {
                                       DataSharedPreferences().saveString(
                                           "username", _username.text);
-                                      if (_username.text == "admin") {
+                                      DataSharedPreferences()
+                                          .saveString("jenis", _pilihan);
+                                      if (_pilihan == "DOSEN") {
                                         Get.to(() => const DashboardGuru());
                                       } else {
                                         Get.to(() => const Dashboard());
